@@ -77,18 +77,24 @@ export default {
   methods: {
     getRepos() {
       this.fetching = true
-      gitHub
-        .getRepos(this.query)
-        .then(({ data }) => {
-          this.requestStatus = null
-          this.repos = data
-        })
-        .catch(err => {
-          this.requestStatus = err.response.status
-        })
-        .finally(() => {
-          this.fetching = false
-        })
+      if (this.query) {
+        gitHub
+          .getRepos(this.query)
+          .then(({ data }) => {
+            this.requestStatus = null
+            this.repos = data
+          })
+          .catch(err => {
+            if (err.response) {
+              this.requestStatus = err.response.status
+            }
+          })
+          .finally(() => {
+            this.fetching = false
+          })
+      } else {
+        this.repos = []
+      }
     }
   }
 }
