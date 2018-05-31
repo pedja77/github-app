@@ -51,7 +51,7 @@ export default {
       query: "",
       repos: [],
       fetching: false,
-      isUser: true,
+      //isUser: true,
       requestStatus: null
     }
   },
