@@ -4,7 +4,7 @@
       <slot name="left"></slot>
     </div>
     <div class="center">
-      {{ title }}
+      <slot name="center">{{ title }}</slot>
     </div>
     <div class="right">
       <slot name="right"></slot>
