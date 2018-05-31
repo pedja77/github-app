@@ -1,20 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div>
-    Profile of {{ user.name}}
-  </div>
-
-</template>
-
-<script>
-export default {
-  props: {
-    user: {
-      type: Object,
-      required: true
-    }
-  }
-=======
   <v-ons-page>
     <app-toolbar>
       <div slot="left">
@@ -62,7 +46,6 @@ export default {
     })
   },
   mounted() {}
->>>>>>> PageNavigation
 }
 </script>
 
