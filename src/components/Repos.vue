@@ -1,17 +1,14 @@
 <template>
-<<<<<<< HEAD
   <v-ons-page>
     <app-toolbar>
     </app-toolbar>
     <div class="content">
       <app-search :query.sync="query" placeholder="Search GitHub" @update:query="debouncedGetRepos" />
-      <v-ons-button modifier="large" @click="showProfile">View Profile</v-ons-button>
+      <v-ons-button modifier="large" @click="onClick">Button</v-ons-button>
       <div>
-
         <div v-if="requestStatus == 404">
           <user-not-found />
         </div>
-
         <div v-else>
           <v-ons-list v-if="showList">
             <v-ons-list-header>Repositories of {{ query }}</v-ons-list-header>
@@ -27,7 +24,6 @@
               </v-ons-row>
             </v-ons-list-item>
           </v-ons-list>
-
           <empty-state v-else type="repo" />
         </div>
 
@@ -38,19 +34,26 @@
     </div>
   </v-ons-page>
 
-=======
-  <v-ons-navigator :page-stack="pageStack" @push-page="pushPage" :options="getOptions()" />
->>>>>>> PageNavigation
 </template>
-
 <script>
-import Repos from "./components/Repos.vue"
-import Profile from "./components/Profile.vue"
+import AppToolbar from "./AppToolbar.vue"
+import AppSearch from "./AppSearch.vue"
+import EmptyState from "./EmptyState.vue"
+import UserNotFound from "./UserNotFound.vue"
+import Profile from "./Profile.vue"
+
+import { gitHub } from "../services/GitHub.js"
+import debounce from "lodash/debounce"
 
 export default {
+  components: {
+    AppToolbar,
+    AppSearch,
+    EmptyState,
+    UserNotFound
+  },
   data() {
     return {
-<<<<<<< HEAD
       query: "",
       repos: [],
       fetching: false,
@@ -60,13 +63,20 @@ export default {
   watch: {
     query: function() {
       this.debouncedGetRepos()
-=======
-      pageStack: [Repos]
->>>>>>> PageNavigation
+    },
+    fetching: function(val) {
+      console.log(val)
     }
   },
+  computed: {
+    showList() {
+      return this.repos.length > 0 && this.query.length > 0
+    }
+  },
+  created() {
+    this.debouncedGetRepos = debounce(this.getRepos, 500)
+  },
   methods: {
-<<<<<<< HEAD
     getRepos() {
       this.fetching = true
       if (this.query) {
@@ -78,7 +88,6 @@ export default {
           })
           .catch(err => {
             if (err.response) {
-              // When last char in serch input is deleted, avoid "... property status of undefined" error
               this.requestStatus = err.response.status
             }
           })
@@ -87,23 +96,34 @@ export default {
           })
       } else {
         this.repos = []
-        this.fetching = false
-=======
-    pushPage(event) {
-      console.log("event", event)
-      this.pageStack.push(event)
-    },
-    getOptions() {
-      return {
-        animation: "slide"
->>>>>>> PageNavigation
       }
     },
-    showProfile() {
-      gitHub.getUserData(this.query).then(response => {
-        console.log(response)
+    onClick() {
+      this.$emit("push-page", {
+        extends: Profile,
+        onsNavigatorProps: {
+          username: this.query
+        }
       })
     }
   }
 }
 </script>
+
+<style>
+#progress {
+  position: fixed;
+  width: 20%; /* Set your desired with */
+  z-index: 2; /* Make sure its above other items. */
+  top: 50%;
+  left: 50%;
+  margin-top: -10%; /* Changes with height. */
+  margin-left: -10%; /* Your width divided by 2. */
+  /* You will not need the below, its only
+           for styling   purposes.*/
+  padding: 10px;
+  border: none;
+  text-align: center;
+}
+</style>
+
