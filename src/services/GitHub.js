@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_TOKEN = "1461f25375db0eb42e62493cca59f65152326554"
+const API_TOKEN = "3cce5c38bca43af5fc3886c1b0cfbcc8d4fc6d9c"
 
 class GitHub {
   constructor() {
@@ -9,6 +9,10 @@ class GitHub {
   }
   getRepos(username) {
     return axios.get(`/${username}/repos`)
+  }
+
+  getUserData(username) {
+    return axios.get(`/${username}`)
   }
 }
 

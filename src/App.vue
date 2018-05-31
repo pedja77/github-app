@@ -4,10 +4,13 @@
     </app-toolbar>
     <div class="content">
       <app-search :query.sync="query" placeholder="Search GitHub" @update:query="debouncedGetRepos" />
+      <v-ons-button modifier="large" @click="showProfile">View Profile</v-ons-button>
       <div>
+
         <div v-if="requestStatus == 404">
           <user-not-found />
         </div>
+
         <div v-else>
           <v-ons-list v-if="showList">
             <v-ons-list-header>Repositories of {{ query }}</v-ons-list-header>
@@ -23,6 +26,7 @@
               </v-ons-row>
             </v-ons-list-item>
           </v-ons-list>
+
           <empty-state v-else type="repo" />
         </div>
 
@@ -61,9 +65,6 @@ export default {
   watch: {
     query: function() {
       this.debouncedGetRepos()
-    },
-    fetching: function(val) {
-      console.log(val)
     }
   },
   computed: {
@@ -86,6 +87,7 @@ export default {
           })
           .catch(err => {
             if (err.response) {
+              // When last char in serch input is deleted, avoid "... property status of undefined" error
               this.requestStatus = err.response.status
             }
           })
@@ -94,7 +96,13 @@ export default {
           })
       } else {
         this.repos = []
+        this.fetching = false
       }
+    },
+    showProfile() {
+      gitHub.getUserData(this.query).then(response => {
+        console.log(response)
+      })
     }
   }
 }
