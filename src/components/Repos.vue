@@ -63,9 +63,6 @@ export default {
   watch: {
     query: function() {
       this.debouncedGetRepos()
-    },
-    fetching: function(val) {
-      console.log(val)
     }
   },
   computed: {
@@ -96,6 +93,7 @@ export default {
           })
       } else {
         this.repos = []
+        this.fetching = false
       }
     },
     onClick() {

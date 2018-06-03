@@ -1,46 +1,5 @@
 <template>
-<<<<<<< HEAD
-  <v-ons-page>
-    <app-toolbar>
-    </app-toolbar>
-    <div class="content">
-      <app-search :query.sync="query" placeholder="Search GitHub" @update:query="debouncedGetRepos" />
-      <v-ons-button modifier="large" @click="showProfile">View Profile</v-ons-button>
-      <div>
-
-        <div v-if="requestStatus == 404">
-          <user-not-found />
-        </div>
-
-        <div v-else>
-          <v-ons-list v-if="showList">
-            <v-ons-list-header>Repositories of {{ query }}</v-ons-list-header>
-            <v-ons-list-item v-for="(repo, index) in repos" :key="index">
-              <v-ons-row>
-                <v-ons-col width="30%">
-                  <img :src="repo.owner.avatar_url" width="50px" />
-                </v-ons-col>
-                <v-ons-col>
-                  <h4>{{ repo.name }}</h4>
-                  <p>{{ repo.description }}</p>
-                </v-ons-col>
-              </v-ons-row>
-            </v-ons-list-item>
-          </v-ons-list>
-
-          <empty-state v-else type="repo" />
-        </div>
-
-      </div>
-      <div v-if="fetching" id="progress">
-        <v-ons-progress-circular indeterminate></v-ons-progress-circular>
-      </div>
-    </div>
-  </v-ons-page>
-
-=======
   <v-ons-navigator :page-stack="pageStack" @push-page="pushPage" :options="getOptions()" />
->>>>>>> PageNavigation
 </template>
 
 <script>
@@ -50,45 +9,10 @@ import Profile from "./components/Profile.vue"
 export default {
   data() {
     return {
-<<<<<<< HEAD
-      query: "",
-      repos: [],
-      fetching: false,
-      requestStatus: null
-    }
-  },
-  watch: {
-    query: function() {
-      this.debouncedGetRepos()
-=======
       pageStack: [Repos]
->>>>>>> PageNavigation
     }
   },
   methods: {
-<<<<<<< HEAD
-    getRepos() {
-      this.fetching = true
-      if (this.query) {
-        gitHub
-          .getRepos(this.query)
-          .then(({ data }) => {
-            this.requestStatus = null
-            this.repos = data
-          })
-          .catch(err => {
-            if (err.response) {
-              // When last char in serch input is deleted, avoid "... property status of undefined" error
-              this.requestStatus = err.response.status
-            }
-          })
-          .finally(() => {
-            this.fetching = false
-          })
-      } else {
-        this.repos = []
-        this.fetching = false
-=======
     pushPage(event) {
       console.log("event", event)
       this.pageStack.push(event)
@@ -96,7 +20,6 @@ export default {
     getOptions() {
       return {
         animation: "slide"
->>>>>>> PageNavigation
       }
     },
     showProfile() {
