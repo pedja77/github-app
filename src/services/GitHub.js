@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_TOKEN = "689962f69703237f6dc87ffbd8ed14b4bf1399f4"
+const API_TOKEN = "1f33561930bfaf9a2b0bb13593aaff400c705d4a"
 
 class GitHub {
   constructor() {

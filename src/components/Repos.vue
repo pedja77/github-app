@@ -4,7 +4,7 @@
     </app-toolbar>
     <div class="content">
       <app-search :query.sync="query" placeholder="Search GitHub" @update:query="debouncedGetRepos" />
-      <v-ons-button modifier="large" @click="onClick">Button</v-ons-button>
+      <v-ons-button modifier="large" @click="onClick">Show Profile</v-ons-button>
       <div>
         <div v-if="requestStatus == 404">
           <user-not-found />
