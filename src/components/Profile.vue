@@ -21,7 +21,7 @@
           </div>
           <div v-if="showNotes">
             <v-ons-input v-model="note" />
-            <v-ons-button @click="saveNote">Save</v-ons-button>
+            <v-ons-button @click="saveNote" styel="{float: right}">Save</v-ons-button>
             <v-ons-list-title>Notes, so far</v-ons-list-title>
             <v-ons-list>
               <v-ons-list-item v-for="(note, index) in getUserNotes" :key="index">{{ note.body }}</v-ons-list-item>
@@ -79,7 +79,6 @@ export default {
   created() {
     gitHub.getUserData(this.username).then(({ data }) => {
       this.user = data
-      console.log(this.user)
     })
     if (!window.localStorage.getItem("notes")) {
       window.localStorage.setItem("notes", JSON.stringify([]))
@@ -88,6 +87,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

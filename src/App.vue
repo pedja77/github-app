@@ -14,18 +14,12 @@ export default {
   },
   methods: {
     pushPage(event) {
-      console.log("event", event)
       this.pageStack.push(event)
     },
     getOptions() {
       return {
         animation: "slide"
       }
-    },
-    showProfile() {
-      gitHub.getUserData(this.query).then(response => {
-        console.log(response)
-      })
     }
   }
 }

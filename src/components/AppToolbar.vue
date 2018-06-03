@@ -4,10 +4,7 @@
       <slot name="left"></slot>
     </div>
     <div class="center">
-      <slot name="center">{{ title }}</slot>
-    </div>
-    <div class="right">
-      <slot name="right"></slot>
+      {{ title }}
     </div>
   </v-ons-toolbar>
 </template>
@@ -23,5 +20,3 @@ export default {
 }
 </script>
 
-<style>
-</style>

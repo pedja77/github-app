@@ -6,22 +6,20 @@
       <app-search :query.sync="query" placeholder="Search GitHub" @update:query="debouncedGetRepos" />
       <v-ons-button modifier="large" @click="onClick">Show Profile</v-ons-button>
       <div>
-        <div v-if="requestStatus == 404">
+        <div v-if="isStatus404">
           <user-not-found />
         </div>
         <div v-else>
           <v-ons-list v-if="showList">
             <v-ons-list-header>Repositories of {{ query }}</v-ons-list-header>
             <v-ons-list-item v-for="(repo, index) in repos" :key="index">
-              <v-ons-row>
-                <v-ons-col width="30%">
-                  <img :src="repo.owner.avatar_url" width="50px" />
-                </v-ons-col>
-                <v-ons-col>
-                  <h4>{{ repo.name }}</h4>
-                  <p>{{ repo.description }}</p>
-                </v-ons-col>
-              </v-ons-row>
+              <div class="left">
+                <img :src="repo.owner.avatar_url" width="50px" />
+              </div>
+              <div>
+                <h4>{{ repo.name }}</h4>
+                <p>{{ repo.description }}</p>
+              </div>
             </v-ons-list-item>
           </v-ons-list>
           <empty-state v-else type="repo" />
@@ -60,14 +58,12 @@ export default {
       requestStatus: null
     }
   },
-  watch: {
-    query: function() {
-      this.debouncedGetRepos()
-    }
-  },
   computed: {
     showList() {
       return this.repos.length > 0 && this.query.length > 0
+    },
+    isStatus404() {
+      return this.requestStatus === 404
     }
   },
   created() {
@@ -76,25 +72,25 @@ export default {
   methods: {
     getRepos() {
       this.fetching = true
-      if (this.query) {
-        gitHub
-          .getRepos(this.query)
-          .then(({ data }) => {
-            this.requestStatus = null
-            this.repos = data
-          })
-          .catch(err => {
-            if (err.response) {
-              this.requestStatus = err.response.status
-            }
-          })
-          .finally(() => {
-            this.fetching = false
-          })
-      } else {
+      if (!this.query) {
         this.repos = []
         this.fetching = false
+        return
       }
+      gitHub
+        .getRepos(this.query)
+        .then(({ data }) => {
+          this.requestStatus = null
+          this.repos = data
+        })
+        .catch(err => {
+          if (err.response) {
+            this.requestStatus = err.response.status
+          }
+        })
+        .finally(() => {
+          this.fetching = false
+        })
     },
     onClick() {
       this.$emit("push-page", {
